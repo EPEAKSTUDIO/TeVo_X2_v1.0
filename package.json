@@ -18,6 +18,7 @@
   "homepage": "https://github.com/Xyala/TeVo_X2_v1.0#readme",
   "dependencies": {
     "autobahn": "^17.5.1",
-    "pi-spi": "^1.0.1"
+    "pi-spi": "^1.0.1",
+    "i2c-bus": "^1.2.2"
   }
 }
