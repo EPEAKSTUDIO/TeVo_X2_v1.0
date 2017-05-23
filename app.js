@@ -1,6 +1,13 @@
 // Use module from local version for the time being
 var max31855 = require('./max31855');
 
+//AUTOBAHN_DEBUG = true;
+var https = require('https');
+https.globalAgent.options.rejectUnauthorized = false;
+var autobahn = require('autobahn');
+var deviceConfig = require('./device-config');
+
+
 // ROG_EXT
 var i2c = require('i2c-bus'),
     i2c1;
