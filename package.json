@@ -1,9 +1,10 @@
 {
   "name": "TeVo_X2_v1.0",
   "version": "1.0.0",
-  "description": "Resin app for the TeVo v1.0 telemetry hat for raspberrypi.",
-  "main": "index.js",
+  "description": "Resin app for the TeVo v1.0 telemetry HAT for Raspberry Pi.",
+  "main": "app.js",
   "scripts": {
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
@@ -16,8 +17,7 @@
   },
   "homepage": "https://github.com/Xyala/TeVo_X2_v1.0#readme",
   "dependencies": {
-    "autobahn": "^0.11.1",
-    "i2c-bus": "^1.2.2",
-    "max31855pi": "^1.0.0"
+    "autobahn": "^17.5.1",
+    "pi-spi": "^1.0.1"
   }
 }
