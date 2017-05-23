@@ -1,10 +1,3 @@
-/*autobahn configuration*/
-var device_key = process.env.DEVICE_KEY;
-var connection = new autobahn.Connection({
-    url: 'wss://ingest.epeakgears.com:1337/ws',
-    realm: process.env.API_KEY
-});
-
 /*device sensor configuration - sent to overlay.live*/
 var gimmeSensorz = function() {
     return {

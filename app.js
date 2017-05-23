@@ -6,7 +6,12 @@ var https = require('https');
 https.globalAgent.options.rejectUnauthorized = false;
 var autobahn = require('autobahn');
 var deviceConfig = require('./device-config');
-
+/*autobahn configuration*/
+var device_key = process.env.DEVICE_KEY;
+var connection = new autobahn.Connection({
+    url: 'wss://ingest.epeakgears.com:1337/ws',
+    realm: process.env.API_KEY
+});
 
 // ROG_EXT
 var i2c = require('i2c-bus'),
