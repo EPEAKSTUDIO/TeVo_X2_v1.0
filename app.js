@@ -28,7 +28,74 @@ var CMD_OPEID_READ = 0x00,
     CMD_FAN_SPEED_READ = 0x60;
 
 
-var hello = setInterval(function() {
+
+/* Totally have to clean this up and make the proper test to see if the ROG_EXT is even connected.
+/* This is just a quick test to make sure it works for the demo
+*/
+
+
+i2c1 = i2c.open(1, function (err) {
+  if (err) throw err;
+  console.log('About to read');
+
+  (function readAll() {
+   console.log('Reading all Settings:');
+
+   opeId = i2c1.readByteSync(ROGEXT_ADDR, CMD_OPEID_READ);
+   console.log('opeID       : ' + opeId);
+
+   bootCode = i2c1.readByteSync(ROGEXT_ADDR, CMD_BOOT_CODE_READ);
+   console.log('Boot code:  : ' + bootCode.toString(16));
+
+   cpuRatio = i2c1.readByteSync(ROGEXT_ADDR, CMD_CPU_RATIO_READ);
+   console.log('CPU ratio   : ' + cpuRatio);
+
+   cacheRatio = i2c1.readByteSync(ROGEXT_ADDR, CMD_CACHE_RATIO_READ);
+   console.log('Cache ratio : ' + cacheRatio);
+
+   rawBclk = i2c1.readWordSync(ROGEXT_ADDR, CMD_BCLK_READ);
+   console.log('BCLK:       : ' + toClk(rawBclk) + ' (raw: ' + rawBclk + '/ 0x' + pad(rawBclk, 4) + ')');
+
+   rawV1 = i2c1.readWordSync(ROGEXT_ADDR, CMD_V1_READ);
+   console.log('V1          : ' + toVolts(rawV1) + ' V (raw: ' + rawV1 + '/ 0x' + pad(rawV1, 4) + ')');
+
+   rawV2 = i2c1.readWordSync(ROGEXT_ADDR, CMD_V2_READ);
+   console.log('V2          : ' + toVolts(rawV2) + ' V (raw: ' + rawV2 + '/ 0x' + pad(rawV2, 4) + ')');
+
+   rawVcore = i2c1.readWordSync(ROGEXT_ADDR, CMD_VCORE_READ);
+   console.log('VCORE       : ' + toVolts(rawVcore) + ' V (raw: ' + rawVcore + '/ 0x' + pad(rawVcore, 4) + ')');
+
+   rawDram = i2c1.readWordSync(ROGEXT_ADDR, CMD_DRAM_VOLTAGE_READ);
+   console.log('DRAM        : ' + toVolts(rawDram) + ' V (raw: ' + rawDram + '/ 0x' + pad(rawDram, 4) + ')');
+
+   cpuTemp = i2c1.readByteSync(ROGEXT_ADDR, CMD_CPU_TEMPERATURE_READ);
+   console.log('CPU temp    : ' + cpuTemp + ' degC');
+
+   rawFan = i2c1.readWordSync(ROGEXT_ADDR, CMD_FAN_SPEED_READ);
+   console.log('Fan         : ' + toRPM(rawFan) + ' RPM (raw: ' + rawFan + '/ 0x' + pad(rawFan, 4) + ')');
+
+   console.log('');
+
+   // Quick add of reading the thermocouple
+
+   thermocouple1.readTempC(function(temp) {
+       console.log('TC1 - Temp in ℃    : ', temp);
+   });
+   thermocouple1.readInternalC(function(temp) {
+       console.log('TC1 - Internal in ℃: ', temp);
+   });
+
+   thermocouple2.readTempC(function(temp) {
+       console.log('TC2 - Temp in ℃    : ', temp);
+   });
+   thermocouple2.readInternalC(function(temp) {
+       console.log('TC2 - Internal in ℃: ', temp);
+   });
+
+   setTimeout(readAll, 2000); //to loop
+ }());
+
+  //  Read anyway...
 
   thermocouple1.readTempC(function(temp) {
       console.log('TC1 - Temp in ℃    : ', temp);
@@ -44,6 +111,6 @@ var hello = setInterval(function() {
       console.log('TC2 - Internal in ℃: ', temp);
   });
 
-  console.log('------')
-  },
-  1000);
+});
+
+i2c1.closeSync();
