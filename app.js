@@ -16,7 +16,7 @@ var connection = new autobahn.Connection({
 // ROG_EXT
 var i2c = require('i2c-bus'),
     i2c1;
-var rog_ext = require('./rog_ext.js');
+require('./rog_ext.js');
 
 
 
@@ -92,7 +92,7 @@ var hello = setInterval(function() {
         console.log('Cache ratio : ' + cacheRatio);
 
         rawBclk = i2c1.readWordSync(ROGEXT_ADDR, CMD_BCLK_READ);
-        console.log('BCLK:       : ' + rog_ext.toClk(rawBclk) + ' (raw: ' + rawBclk + '/ 0x' + pad(rawBclk, 4) + ')');
+        console.log('BCLK:       : ' + toClk(rawBclk) + ' (raw: ' + rawBclk + '/ 0x' + pad(rawBclk, 4) + ')');
 
         rawV1 = i2c1.readWordSync(ROGEXT_ADDR, CMD_V1_READ);
         console.log('V1          : ' + toVolts(rawV1) + ' V (raw: ' + rawV1 + '/ 0x' + pad(rawV1, 4) + ')');
