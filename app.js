@@ -16,7 +16,7 @@ var connection = new autobahn.Connection({
 // ROG_EXT
 var i2c = require('i2c-bus'),
     i2c1;
-var rog_ext = require('./rog_ext.js');  // Not sure how to do all the proper connection in node between files...
+//var rog_ext = require('./rog_ext.js');  // Not sure how to do all the proper connection in node between files...
 
 function pad(n, width, z) {
   z = z || '0';
