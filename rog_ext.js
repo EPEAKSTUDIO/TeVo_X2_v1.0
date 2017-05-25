@@ -29,3 +29,5 @@ function toVolts(rawValue) {
 function toRPM(rawValue) {
   return swap16(rawValue);
 }
+
+module.exports = ROG_EXT;

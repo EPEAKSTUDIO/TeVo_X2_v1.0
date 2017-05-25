@@ -16,7 +16,7 @@ var connection = new autobahn.Connection({
 // ROG_EXT
 var i2c = require('i2c-bus'),
     i2c1;
-require('./rog_ext.js');
+var rog_ext = require('./rog_ext.js');
 
 
 
