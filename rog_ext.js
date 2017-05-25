@@ -15,21 +15,21 @@ var ROG_EXT = {
   }
 
 /* Change endiannes / swap two bytes of a word */
-  swap16: function (val) {
+  swap16: function(val) {
     return ((val & 0xFF) << 8) | ((val >> 8) & 0xFF);
   }
 
-  toClk: function (rawValue) {
+  toClk: function(rawValue) {
     return swap16(rawValue) * 0.1;
   }
 
 /* Volts conversion */
-  toVolts: function (rawValue) {
+  toVolts: function(rawValue) {
     return swap16(rawValue) * 0.005;
   }
 
 /* Fan RPM conversion */
-  toRPM: function (rawValue) {
+  toRPM: function(rawValue) {
     return swap16(rawValue);
   }
 
