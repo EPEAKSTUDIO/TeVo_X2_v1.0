@@ -33,7 +33,7 @@ var ROG_EXT = {
     return swap16(rawValue);
   }
 
-}
+};
 
 module.exports = ROG_EXT;
 

@@ -92,25 +92,25 @@ var hello = setInterval(function() {
         console.log('Cache ratio : ' + cacheRatio);
 
         rawBclk = i2c1.readWordSync(ROGEXT_ADDR, CMD_BCLK_READ);
-        console.log('BCLK:       : ' + ROG_EXT.toClk(rawBclk) + ' (raw: ' + rawBclk + '/ 0x' + ROG_EXT.pad(rawBclk, 4) + ')');
+        console.log('BCLK:       : ' + rog_ext.toClk(rawBclk) + ' (raw: ' + rawBclk + '/ 0x' + rog_ext.pad(rawBclk, 4) + ')');
 
         rawV1 = i2c1.readWordSync(ROGEXT_ADDR, CMD_V1_READ);
-        console.log('V1          : ' + ROG_EXT.toVolts(rawV1) + ' V (raw: ' + rawV1 + '/ 0x' + ROG_EXT.pad(rawV1, 4) + ')');
+        console.log('V1          : ' + rog_ext.toVolts(rawV1) + ' V (raw: ' + rawV1 + '/ 0x' + rog_ext.pad(rawV1, 4) + ')');
 
         rawV2 = i2c1.readWordSync(ROGEXT_ADDR, CMD_V2_READ);
-        console.log('V2          : ' + ROG_EXT.toVolts(rawV2) + ' V (raw: ' + rawV2 + '/ 0x' + ROG_EXT.pad(rawV2, 4) + ')');
+        console.log('V2          : ' + rog_ext.toVolts(rawV2) + ' V (raw: ' + rawV2 + '/ 0x' + rog_ext.pad(rawV2, 4) + ')');
 
         rawVcore = i2c1.readWordSync(ROGEXT_ADDR, CMD_VCORE_READ);
-        console.log('VCORE       : ' + ROG_EXT.toVolts(rawVcore) + ' V (raw: ' + rawVcore + '/ 0x' + ROG_EXT.pad(rawVcore, 4) + ')');
+        console.log('VCORE       : ' + rog_ext.toVolts(rawVcore) + ' V (raw: ' + rawVcore + '/ 0x' + rog_ext.pad(rawVcore, 4) + ')');
 
         rawDram = i2c1.readWordSync(ROGEXT_ADDR, CMD_DRAM_VOLTAGE_READ);
-        console.log('DRAM        : ' + ROG_EXT.toVolts(rawDram) + ' V (raw: ' + rawDram + '/ 0x' + ROG_EXT.pad(rawDram, 4) + ')');
+        console.log('DRAM        : ' + rog_ext.toVolts(rawDram) + ' V (raw: ' + rawDram + '/ 0x' + rog_ext.pad(rawDram, 4) + ')');
 
         cpuTemp = i2c1.readByteSync(ROGEXT_ADDR, CMD_CPU_TEMPERATURE_READ);
         console.log('CPU temp    : ' + cpuTemp + ' degC');
 
         rawFan = i2c1.readWordSync(ROGEXT_ADDR, CMD_FAN_SPEED_READ);
-        console.log('Fan         : ' + ROG_EXT.toRPM(rawFan) + ' RPM (raw: ' + rawFan + '/ 0x' + ROG_EXT.pad(rawFan, 4) + ')');
+        console.log('Fan         : ' + rog_ext.toRPM(rawFan) + ' RPM (raw: ' + rawFan + '/ 0x' + rog_ext.pad(rawFan, 4) + ')');
 
         console.log('');
 
