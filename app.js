@@ -192,7 +192,7 @@ var start = function() {
        thermocouple1.readTempC(function(temp) {
            console.log('TC1 - Temp in ℃    : ', temp);
            var uriSensorA = device_key + '.sensorA';
-           autosession.publish(uriSensorA, [temp]);
+           autosession.publish(uriSensorA, [{data:temp}]);
        });
        thermocouple1.readInternalC(function(temp) {
            console.log('TC1 - Internal in ℃: ', temp);
@@ -201,7 +201,7 @@ var start = function() {
        thermocouple2.readTempC(function(temp) {
            console.log('TC2 - Temp in ℃    : ', temp);
            var uriSensorB = device_key + '.sensorB';
-           autosession.publish(uriSensorB, [{temp}]);
+           autosession.publish(uriSensorB, [{data:temp}]);
        });
        thermocouple2.readInternalC(function(temp) {
            console.log('TC2 - Internal in ℃: ', temp);
