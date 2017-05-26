@@ -117,6 +117,15 @@ var gimmeSensorz = function() {
       hardware: '1.0' // Additional hardware informations
     },
     {
+      channel: 'sensor4b', // [*] The channel the sensor will publish data
+      name: 'CPU Frequency', // [*] The default sensor name
+      unit: 'MHz', // The sensor type (temperature, voltage, etc)
+      type: 'Frequency',
+      manufacturer: 'Elmor Labs', // The sensor manufacturer
+      version: '1.0', // The sensor version
+      hardware: '1.0' // Additional hardware informations
+    },
+    {
       channel: 'sensor5', // [*] The channel the sensor will publish data
       name: 'V1', // [*] The default sensor name
       unit: 'V', // The sensor type (temperature, voltage, etc)
@@ -244,6 +253,11 @@ var start = function() {
              var uriSensor4 = device_key + '.sensor4';
              var Bclk = toClk(rawBclk);
              autosession.publish(uriSensor4, [{data:Bclk}]);
+
+             // Adding some calculated value for CPU Frequency. BLCK*CMD_CPU_RATIO_READ
+             cpuFrequency = cpuRatio*Bclk;
+             var uriSensor4b = device_key + '.sensor4b';
+             autosession.publish(uriSensor4b, [{data:cpuFrequency}]);
 
              rawV1 = i2c1.readWordSync(ROGEXT_ADDR, CMD_V1_READ);
              console.log('V1          : ' + toVolts(rawV1).toFixed(3) + ' V (raw: ' + rawV1 + '/ 0x' + pad(rawV1, 4) + ')');
