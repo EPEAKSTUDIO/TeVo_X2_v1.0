@@ -192,7 +192,7 @@ var start = function() {
        thermocouple1.readTempC(function(temp) {
            console.log('TC1 - Temp in ℃    : ', temp);
            var uriSensorA = device_key + '.sensorA';
-           autosession.publish(uriSensorA, [{temp}]);
+           autosession.publish(uriSensorA, temp);
        });
        thermocouple1.readInternalC(function(temp) {
            console.log('TC1 - Internal in ℃: ', temp);
@@ -222,7 +222,6 @@ var start = function() {
              console.log('ROG EXT DETECTED');
              console.log('------');
              // Code here to read I2C from ROG_EXT
-             console.log('Reading all Settings:');
 
              bootCode = i2c1.readByteSync(ROGEXT_ADDR, CMD_BOOT_CODE_READ);
              console.log('Boot code:  : ' + bootCode.toString(16));
