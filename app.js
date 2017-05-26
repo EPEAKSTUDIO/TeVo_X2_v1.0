@@ -233,7 +233,7 @@ var start = function() {
              // Code here to read I2C from ROG_EXT
 
              bootCode = i2c1.readByteSync(ROGEXT_ADDR, CMD_BOOT_CODE_READ);
-             console.log('Boot code   : ' + bootCode.toString(16));
+             console.log('Boot code     : ' + bootCode.toString(16));
              var uriSensor1 = device_key + '.sensor1';
              var bootcode_conv = bootCode.toString(16);
              autosession.publish(uriSensor1, [{data:bootcode_conv}]);
@@ -256,12 +256,12 @@ var start = function() {
 
              // Adding some calculated value for CPU Frequency. BLCK*CMD_CPU_RATIO_READ
              cpuFrequency = cpuRatio*Bclk*0.001;
-             console.log('CPU Frequency: ' + cpuFrequency +' (calculated)');
+             console.log('CPU Frequency : ' + cpuFrequency +' (calculated)');
              var uriSensor4b = device_key + '.sensor4b';
              autosession.publish(uriSensor4b, [{data:cpuFrequency}]);
 
              rawV1 = i2c1.readWordSync(ROGEXT_ADDR, CMD_V1_READ);
-             console.log('V1           : ' + toVolts(rawV1).toFixed(3) + ' V (raw: ' + rawV1 + '/ 0x' + pad(rawV1, 4) + ')');
+             console.log('V1            : ' + toVolts(rawV1).toFixed(3) + ' V (raw: ' + rawV1 + '/ 0x' + pad(rawV1, 4) + ')');
              var uriSensor5 = device_key + '.sensor5';
              var v1 = toVolts(rawV1).toFixed(3);
              autosession.publish(uriSensor5, [{data:v1}]);
@@ -285,7 +285,7 @@ var start = function() {
              autosession.publish(uriSensor8, [{data:vDram}]);
 
              cpuTemp = i2c1.readByteSync(ROGEXT_ADDR, CMD_CPU_TEMPERATURE_READ);
-             console.log('CPU temp     : ' + cpuTemp + ' degC');
+             console.log('CPU temp       : ' + cpuTemp + ' degC');
              var uriSensor9 = device_key + '.sensor9';
              autosession.publish(uriSensor9, [{data:cpuTemp}]);
 
