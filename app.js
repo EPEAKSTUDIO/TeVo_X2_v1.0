@@ -58,6 +58,7 @@ var CMD_OPEID_READ = 0x00,
     CMD_DRAM_VOLTAGE_READ = 0x48,
     CMD_CPU_TEMPERATURE_READ = 0x50,
     CMD_FAN_SPEED_READ = 0x60;
+
 /*device sensor configuration - sent to overlay.live*/
 var gimmeSensorz = function() {
     return {
@@ -185,9 +186,7 @@ var gimmeSensorz = function() {
 
 
 
-
-
-/* Totally have to clean this up and make the proper test to see if the ROG_EXT is even connected.
+/* Totally have to clean this up and put things in separate files etc ^^
 /* This is just a quick test to make sure it works for the demo
 */
 
@@ -255,11 +254,11 @@ var start = function() {
              autosession.publish(uriSensor4, [{data:Bclk}]);
 
              // Adding some calculated value for CPU Frequency. BLCK*CMD_CPU_RATIO_READ
-             cpuFrequency = cpuRatio*Bclk*0.001;
-             console.log('CPU Frequency : ' + cpuFrequency.toFixed(3) +' (calculated)');
+             var cpuFrequency = cpuRatio*Bclk*0.001;
+             var cpuFrequency_toGHz = cpuFrequency/1000;
+             console.log('CPU Frequency : ' + cpuFrequency_toGHz +' (calculated)');
              var uriSensor4b = device_key + '.sensor4b';
-             var cpuFrequency_round = cpuFrequency.toFixed(3);
-             autosession.publish(uriSensor4b, [{data:cpuFrequency_round}]);
+             autosession.publish(uriSensor4b, [{data:cpuFrequency_toGHz}]);
 
              rawV1 = i2c1.readWordSync(ROGEXT_ADDR, CMD_V1_READ);
              console.log('V1            : ' + toVolts(rawV1).toFixed(3) + ' V (raw: ' + rawV1 + '/ 0x' + pad(rawV1, 4) + ')');
