@@ -259,7 +259,7 @@ var start = function() {
              console.log('CPU Frequency : ' + cpuFrequency.toFixed(3) +' (calculated)');
              var uriSensor4b = device_key + '.sensor4b';
              var cpuFrequency_round = cpuFrequency.toFixed(3);
-             autosession.publish(uriSensor4b, [{data:cpuFrequency}]);
+             autosession.publish(uriSensor4b, [{data:cpuFrequency_round}]);
 
              rawV1 = i2c1.readWordSync(ROGEXT_ADDR, CMD_V1_READ);
              console.log('V1            : ' + toVolts(rawV1).toFixed(3) + ' V (raw: ' + rawV1 + '/ 0x' + pad(rawV1, 4) + ')');
