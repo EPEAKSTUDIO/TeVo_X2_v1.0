@@ -256,8 +256,9 @@ var start = function() {
 
              // Adding some calculated value for CPU Frequency. BLCK*CMD_CPU_RATIO_READ
              cpuFrequency = cpuRatio*Bclk*0.001;
-             console.log('CPU Frequency : ' + cpuFrequency +' (calculated)');
+             console.log('CPU Frequency : ' + cpuFrequency.toFixed(3) +' (calculated)');
              var uriSensor4b = device_key + '.sensor4b';
+             var cpuFrequency_round = cpuFrequency.toFixed(3);
              autosession.publish(uriSensor4b, [{data:cpuFrequency}]);
 
              rawV1 = i2c1.readWordSync(ROGEXT_ADDR, CMD_V1_READ);
