@@ -5,7 +5,7 @@ var max31855 = require('./max31855');
 var https = require('https');
 https.globalAgent.options.rejectUnauthorized = false;
 var autobahn = require('autobahn');
-var deviceConfig = require('./device-config');
+// var deviceConfig = require('./device-config'); // Not sure how to do all the proper connection in node between files...
 /*autobahn configuration*/
 var device_key = process.env.DEVICE_KEY;
 var connection = new autobahn.Connection({
@@ -58,6 +58,105 @@ var CMD_OPEID_READ = 0x00,
     CMD_DRAM_VOLTAGE_READ = 0x48,
     CMD_CPU_TEMPERATURE_READ = 0x50,
     CMD_FAN_SPEED_READ = 0x60;
+/*device sensor configuration - sent to overlay.live*/
+var gimmeSensorz = function() {
+    return {
+	sensors:[
+    {
+  		channel: 'sensor1', // [*] The channel the sensor will publish data
+  		name: 'Boot Code', // [*] The default sensor name
+  		unit: 'Code', // The sensor type (temperature, voltage, etc)
+      type: 'Code',
+  		manufacturer: 'Epeak Gears', // The sensor manufacturer
+  		version: '1.0', // The sensor version
+  		hardware: 'prototype v0.01' // Additional hardware informations
+    },
+    {
+      channel: 'sensor2', // [*] The channel the sensor will publish data
+  		name: 'CPU Ratio', // [*] The default sensor name
+  		unit: 'x', // The sensor type (temperature, voltage, etc)
+      type: 'Multiplier',
+  		manufacturer: 'Epeak Gears', // The sensor manufacturer
+  		version: '1.0', // The sensor version
+  		hardware: 'prototype v1.0' // Additional hardware informations
+    },
+    {
+      channel: 'sensor3', // [*] The channel the sensor will publish data
+      name: 'CPU Cache Ratio', // [*] The default sensor name
+      unit: 'x', // The sensor type (temperature, voltage, etc)
+      type: 'Multiplier',
+      manufacturer: 'Epeak Gears', // The sensor manufacturer
+      version: '1.0', // The sensor version
+      hardware: 'prototype v1.0' // Additional hardware informations
+    },
+    {
+      channel: 'sensor4', // [*] The channel the sensor will publish data
+      name: 'BCLK', // [*] The default sensor name
+      unit: 'MHz', // The sensor type (temperature, voltage, etc)
+      type: 'Clock',
+      manufacturer: 'Epeak Gears', // The sensor manufacturer
+      version: '1.0', // The sensor version
+      hardware: 'prototype v1.0' // Additional hardware informations
+    },
+    {
+      channel: 'sensor5', // [*] The channel the sensor will publish data
+      name: 'V1', // [*] The default sensor name
+      unit: 'V', // The sensor type (temperature, voltage, etc)
+      type: 'Voltage',
+      manufacturer: 'Epeak Gears', // The sensor manufacturer
+      version: '1.0', // The sensor version
+      hardware: 'prototype v1.0' // Additional hardware informations
+    },
+    {
+      channel: 'sensor6', // [*] The channel the sensor will publish data
+      name: 'V2', // [*] The default sensor name
+      unit: 'V', // The sensor type (temperature, voltage, etc)
+      type: 'Voltage',
+      manufacturer: 'Epeak Gears', // The sensor manufacturer
+      version: '1.0', // The sensor version
+      hardware: 'prototype v1.0' // Additional hardware informations
+    },
+    {
+      channel: 'sensor7', // [*] The channel the sensor will publish data
+      name: 'VCore', // [*] The default sensor name
+      unit: 'V', // The sensor type (temperature, voltage, etc)
+      type: 'Voltage',
+      manufacturer: 'Epeak Gears', // The sensor manufacturer
+      version: '1.0', // The sensor version
+      hardware: 'prototype v1.0' // Additional hardware informations
+    },
+    {
+      channel: 'sensor8', // [*] The channel the sensor will publish data
+      name: 'DRAM Voltage', // [*] The default sensor name
+      unit: 'V', // The sensor type (temperature, voltage, etc)
+      type: 'Voltage',
+      manufacturer: 'Epeak Gears', // The sensor manufacturer
+      version: '1.0', // The sensor version
+      hardware: 'prototype v1.0' // Additional hardware informations
+    },
+    {
+      channel: 'sensor9', // [*] The channel the sensor will publish data
+      name: 'CPU Temp', // [*] The default sensor name
+      unit: 'C', // The sensor type (temperature, voltage, etc)
+      type: 'Temperature',
+      manufacturer: 'Epeak Gears', // The sensor manufacturer
+      version: '1.0', // The sensor version
+      hardware: 'prototype v1.0' // Additional hardware informations
+    },
+    {
+      channel: 'sensor10', // [*] The channel the sensor will publish data
+      name: 'CPU Fan Speed', // [*] The default sensor name
+      unit: 'rpm', // The sensor type (temperature, voltage, etc)
+      type: 'Speed',
+      manufacturer: 'Epeak Gears', // The sensor manufacturer
+      version: '1.0', // The sensor version
+      hardware: 'prototype v1.0' // Additional hardware informations
+    }
+	]
+    };
+}
+
+
 
 
 
@@ -65,78 +164,108 @@ var CMD_OPEID_READ = 0x00,
 /* This is just a quick test to make sure it works for the demo
 */
 
+var start = function() {
+    console.log('About to read');
 
-var hello = setInterval(function() {
+      var hello = setInterval(function(){
 
-  thermocouple1.readTempC(function(temp) {
-      console.log('TC1 - Temp in ℃    : ', temp);
-  });
-  thermocouple1.readInternalC(function(temp) {
-      console.log('TC1 - Internal in ℃: ', temp);
-  });
+      console.log('Reading all Settings:');
 
-  thermocouple2.readTempC(function(temp) {
-      console.log('TC2 - Temp in ℃    : ', temp);
-  });
-  thermocouple2.readInternalC(function(temp) {
-      console.log('TC2 - Internal in ℃: ', temp);
-  });
+       thermocouple1.readTempC(function(temp) {
+           console.log('TC1 - Temp in ℃    : ', temp);
+       });
+       thermocouple1.readInternalC(function(temp) {
+           console.log('TC1 - Internal in ℃: ', temp);
+       });
 
-  console.log('------')
+       thermocouple2.readTempC(function(temp) {
+           console.log('TC2 - Temp in ℃    : ', temp);
+       });
+       thermocouple2.readInternalC(function(temp) {
+           console.log('TC2 - Internal in ℃: ', temp);
+       });
 
-  i2c1 = i2c.open(1, function (err) {
-    if (err) throw err;
-    console.log('About to read i2c');
-    opeId = i2c1.readByte(ROGEXT_ADDR, CMD_OPEID_READ, function(err){
-      if (err) {
-        console.log('NO ROG EXT DETECTED');
-        console.log('------');
-        // Do nothing.
-      }
-      else {
-        console.log('ROG EXT DETECTED');
-        console.log('------');
-        // Code here to read I2C from ROG_EXT
-        console.log('Reading all Settings:');
+       console.log('------')
 
-        opeId = i2c1.readByteSync(ROGEXT_ADDR, CMD_OPEID_READ);
-        console.log('opeID       : ' + opeId);
+       i2c1 = i2c.open(1, function (err) {
+         if (err) throw err;
+         console.log('About to read i2c');
+         opeId = i2c1.readByte(ROGEXT_ADDR, CMD_OPEID_READ, function(err){
+           if (err) {
+             console.log('NO ROG EXT DETECTED');
+             console.log('------');
+             // Do nothing.
+           }
+           else {
+             console.log('ROG EXT DETECTED');
+             console.log('------');
+             // Code here to read I2C from ROG_EXT
+             console.log('Reading all Settings:');
 
-        bootCode = i2c1.readByteSync(ROGEXT_ADDR, CMD_BOOT_CODE_READ);
-        console.log('Boot code:  : ' + bootCode.toString(16));
+             opeId = i2c1.readByteSync(ROGEXT_ADDR, CMD_OPEID_READ);
+             console.log('opeID       : ' + opeId);
 
-        cpuRatio = i2c1.readByteSync(ROGEXT_ADDR, CMD_CPU_RATIO_READ);
-        console.log('CPU ratio   : ' + cpuRatio);
+             bootCode = i2c1.readByteSync(ROGEXT_ADDR, CMD_BOOT_CODE_READ);
+             console.log('Boot code:  : ' + bootCode.toString(16));
 
-        cacheRatio = i2c1.readByteSync(ROGEXT_ADDR, CMD_CACHE_RATIO_READ);
-        console.log('Cache ratio : ' + cacheRatio);
+             cpuRatio = i2c1.readByteSync(ROGEXT_ADDR, CMD_CPU_RATIO_READ);
+             console.log('CPU ratio   : ' + cpuRatio);
 
-        rawBclk = i2c1.readWordSync(ROGEXT_ADDR, CMD_BCLK_READ);
-        console.log('BCLK:       : ' + toClk(rawBclk) + ' (raw: ' + rawBclk + '/ 0x' + pad(rawBclk, 4) + ')');
+             cacheRatio = i2c1.readByteSync(ROGEXT_ADDR, CMD_CACHE_RATIO_READ);
+             console.log('Cache ratio : ' + cacheRatio);
 
-        rawV1 = i2c1.readWordSync(ROGEXT_ADDR, CMD_V1_READ);
-        console.log('V1          : ' + toVolts(rawV1).toFixed(3) + ' V (raw: ' + rawV1 + '/ 0x' + pad(rawV1, 4) + ')');
+             rawBclk = i2c1.readWordSync(ROGEXT_ADDR, CMD_BCLK_READ);
+             console.log('BCLK:       : ' + toClk(rawBclk) + ' (raw: ' + rawBclk + '/ 0x' + pad(rawBclk, 4) + ')');
 
-        rawV2 = i2c1.readWordSync(ROGEXT_ADDR, CMD_V2_READ);
-        console.log('V2          : ' + toVolts(rawV2).toFixed(3) + ' V (raw: ' + rawV2 + '/ 0x' + pad(rawV2, 4) + ')');
+             rawV1 = i2c1.readWordSync(ROGEXT_ADDR, CMD_V1_READ);
+             console.log('V1          : ' + toVolts(rawV1).toFixed(3) + ' V (raw: ' + rawV1 + '/ 0x' + pad(rawV1, 4) + ')');
 
-        rawVcore = i2c1.readWordSync(ROGEXT_ADDR, CMD_VCORE_READ);
-        console.log('VCORE       : ' + toVolts(rawVcore).toFixed(3) + ' V (raw: ' + rawVcore + '/ 0x' + pad(rawVcore, 4) + ')');
+             rawV2 = i2c1.readWordSync(ROGEXT_ADDR, CMD_V2_READ);
+             console.log('V2          : ' + toVolts(rawV2).toFixed(3) + ' V (raw: ' + rawV2 + '/ 0x' + pad(rawV2, 4) + ')');
 
-        rawDram = i2c1.readWordSync(ROGEXT_ADDR, CMD_DRAM_VOLTAGE_READ);
-        console.log('DRAM        : ' + toVolts(rawDram).toFixed(3)   + ' V (raw: ' + rawDram + '/ 0x' + pad(rawDram, 4) + ')');
+             rawVcore = i2c1.readWordSync(ROGEXT_ADDR, CMD_VCORE_READ);
+             console.log('VCORE       : ' + toVolts(rawVcore).toFixed(3) + ' V (raw: ' + rawVcore + '/ 0x' + pad(rawVcore, 4) + ')');
 
-        cpuTemp = i2c1.readByteSync(ROGEXT_ADDR, CMD_CPU_TEMPERATURE_READ);
-        console.log('CPU temp    : ' + cpuTemp + ' degC');
+             rawDram = i2c1.readWordSync(ROGEXT_ADDR, CMD_DRAM_VOLTAGE_READ);
+             console.log('DRAM        : ' + toVolts(rawDram).toFixed(3)   + ' V (raw: ' + rawDram + '/ 0x' + pad(rawDram, 4) + ')');
 
-        rawFan = i2c1.readWordSync(ROGEXT_ADDR, CMD_FAN_SPEED_READ);
-        console.log('Fan         : ' + toRPM(rawFan) + ' RPM (raw: ' + rawFan + '/ 0x' + pad(rawFan, 4) + ')');
+             cpuTemp = i2c1.readByteSync(ROGEXT_ADDR, CMD_CPU_TEMPERATURE_READ);
+             console.log('CPU temp    : ' + cpuTemp + ' degC');
 
-        console.log('');
+             rawFan = i2c1.readWordSync(ROGEXT_ADDR, CMD_FAN_SPEED_READ);
+             console.log('Fan         : ' + toRPM(rawFan) + ' RPM (raw: ' + rawFan + '/ 0x' + pad(rawFan, 4) + ')');
 
-      }});
+             console.log('');
+
+           }});
+        });
+        i2c1.closeSync();
+
+       },
+       1000);
+};
+
+
+
+/*Opening connection with Overlay.live server*/
+connection.onopen = function (session) {
+  console.log("Connected to network with Session ID: "+session.id);
+
+    /*Registering the device sensors // Updating save configuratin*/
+    var uriRegister = device_key + '.proc_list_sensors';
+    session.register(uriRegister, gimmeSensorz).then(function(reg){
+
+    autosession = session;
+    console.log("procedure registered");
+    start();
+
+   }, function(err) {
+  console.log("failed to register procedure: " + err.error);
    });
-   i2c1.closeSync();
+};
 
-  },
-  1000);
+connection.onclose = function (reason, details) {
+    console.log(reason);
+};
+
+connection.open();
