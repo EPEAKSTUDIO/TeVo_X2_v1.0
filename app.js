@@ -119,7 +119,7 @@ var gimmeSensorz = function() {
     {
       channel: 'sensor4b', // [*] The channel the sensor will publish data
       name: 'CPU Frequency', // [*] The default sensor name
-      unit: 'MHz', // The sensor type (temperature, voltage, etc)
+      unit: 'GHz', // The sensor type (temperature, voltage, etc)
       type: 'Frequency',
       manufacturer: 'Elmor Labs', // The sensor manufacturer
       version: '1.0', // The sensor version
@@ -255,8 +255,8 @@ var start = function() {
              autosession.publish(uriSensor4, [{data:Bclk}]);
 
              // Adding some calculated value for CPU Frequency. BLCK*CMD_CPU_RATIO_READ
-             cpuFrequency = cpuRatio*Bclk;
-             console.log('BCLK:       : ' + cpuFrequency +'');
+             cpuFrequency = cpuRatio*Bclk*0.001;
+             console.log('CPU Frequency:       : ' + cpuFrequency +' (calculated)');
              var uriSensor4b = device_key + '.sensor4b';
              autosession.publish(uriSensor4b, [{data:cpuFrequency}]);
 
@@ -277,7 +277,6 @@ var start = function() {
              var uriSensor7 = device_key + '.sensor7';
              var vCore = toVolts(rawVcore).toFixed(3);
              autosession.publish(uriSensor7, [{data:vCore}]);
-
 
              rawDram = i2c1.readWordSync(ROGEXT_ADDR, CMD_DRAM_VOLTAGE_READ);
              console.log('DRAM        : ' + toVolts(rawDram).toFixed(3) + ' V (raw: ' + rawDram + '/ 0x' + pad(rawDram, 4) + ')');
