@@ -256,7 +256,7 @@ var start = function() {
              // Adding some calculated value for CPU Frequency. BLCK*CMD_CPU_RATIO_READ
              var cpuFrequency = cpuRatio*Bclk;
              var cpuFrequency_toGHz = cpuFrequency/1000;
-             console.log('CPU Frequency : ' + cpuFrequency_toGHz +' (calculated)');
+             console.log('CPU Frequency : ' + cpuFrequency +' (calculated)');
              var uriSensor4b = device_key + '.sensor4b';
              autosession.publish(uriSensor4b, [{data:cpuFrequency_toGHz}]);
 
