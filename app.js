@@ -225,28 +225,28 @@ var start = function() {
              autosession.publish(uriSensor4, [{data:Bclk}]);
 
              rawV1 = i2c1.readWordSync(ROGEXT_ADDR, CMD_V1_READ);
-             console.log('V1          : ' + toVolts(rawV1) + ' V (raw: ' + rawV1 + '/ 0x' + pad(rawV1, 4) + ')');
+             console.log('V1          : ' + toVolts(rawV1).toFixed(3) + ' V (raw: ' + rawV1 + '/ 0x' + pad(rawV1, 4) + ')');
              var uriSensor5 = device_key + '.sensor5';
-             var v1 = toVolts(rawV1);
+             var v1 = toVolts(rawV1).toFixed(3);
              autosession.publish(uriSensor5, [{data:v1}]);
 
              rawV2 = i2c1.readWordSync(ROGEXT_ADDR, CMD_V2_READ);
-             console.log('V2          : ' + toVolts(rawV2) + ' V (raw: ' + rawV2 + '/ 0x' + pad(rawV2, 4) + ')');
+             console.log('V2          : ' + toVolts(rawV2).toFixed(3) + ' V (raw: ' + rawV2 + '/ 0x' + pad(rawV2, 4) + ')');
              var uriSensor6 = device_key + '.sensor6';
-             var v2 = toVolts(rawV2);
+             var v2 = toVolts(rawV2).toFixed(3);
              autosession.publish(uriSensor6, [{data:v2}]);
 
              rawVcore = i2c1.readWordSync(ROGEXT_ADDR, CMD_VCORE_READ);
-             console.log('VCORE       : ' + toVolts(rawVcore) + ' V (raw: ' + rawVcore + '/ 0x' + pad(rawVcore, 4) + ')');
+             console.log('VCORE       : ' + toVolts(rawVcore).toFixed(3) + ' V (raw: ' + rawVcore + '/ 0x' + pad(rawVcore, 4) + ')');
              var uriSensor7 = device_key + '.sensor7';
-             var vCore = toVolts(rawVcore);
+             var vCore = toVolts(rawVcore).toFixed(3);
              autosession.publish(uriSensor7, [{data:vCore}]);
 
 
              rawDram = i2c1.readWordSync(ROGEXT_ADDR, CMD_DRAM_VOLTAGE_READ);
-             console.log('DRAM        : ' + toVolts(rawDram) + ' V (raw: ' + rawDram + '/ 0x' + pad(rawDram, 4) + ')');
+             console.log('DRAM        : ' + toVolts(rawDram).toFixed(3) + ' V (raw: ' + rawDram + '/ 0x' + pad(rawDram, 4) + ')');
              var uriSensor8 = device_key + '.sensor8';
-             var vDram = toVolts(rawDram);
+             var vDram = toVolts(rawDram).toFixed(3);
              autosession.publish(uriSensor8, [{data:vDram}]);
 
              cpuTemp = i2c1.readByteSync(ROGEXT_ADDR, CMD_CPU_TEMPERATURE_READ);
