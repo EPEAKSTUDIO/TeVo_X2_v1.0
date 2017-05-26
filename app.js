@@ -256,6 +256,7 @@ var start = function() {
 
              // Adding some calculated value for CPU Frequency. BLCK*CMD_CPU_RATIO_READ
              cpuFrequency = cpuRatio*Bclk;
+             console.log('BCLK:       : ' + cpuFrequency +'');
              var uriSensor4b = device_key + '.sensor4b';
              autosession.publish(uriSensor4b, [{data:cpuFrequency}]);
 
