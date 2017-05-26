@@ -63,94 +63,112 @@ var gimmeSensorz = function() {
     return {
 	sensors:[
     {
+      channel: 'sensorA', // [*] The channel the sensor will publish data
+      name: 'Temperature 1', // [*] The default sensor name
+      unit: 'C', // The sensor type (temperature, voltage, etc)
+      type: 'Temperature',
+      manufacturer: 'Epeak Gears', // The sensor manufacturer
+      version: '1.0', // The sensor version
+      hardware: 'RaspberryPi HAT v1.0' // Additional hardware informations
+    },
+    {
+      channel: 'sensorB', // [*] The channel the sensor will publish data
+      name: 'Temperature 2', // [*] The default sensor name
+      unit: 'C', // The sensor type (temperature, voltage, etc)
+      type: 'Temperature',
+      manufacturer: 'Epeak Gears', // The sensor manufacturer
+      version: '1.0', // The sensor version
+      hardware: 'RaspberryPi HAT v1.0' // Additional hardware informations
+    },
+    {
   		channel: 'sensor1', // [*] The channel the sensor will publish data
   		name: 'Boot Code', // [*] The default sensor name
   		unit: 'Code', // The sensor type (temperature, voltage, etc)
       type: 'Code',
-  		manufacturer: 'Epeak Gears', // The sensor manufacturer
+  		manufacturer: 'Elmor Labs', // The sensor manufacturer
   		version: '1.0', // The sensor version
-  		hardware: 'prototype v0.01' // Additional hardware informations
+  		hardware: '1.0' // Additional hardware informations
     },
     {
       channel: 'sensor2', // [*] The channel the sensor will publish data
   		name: 'CPU Ratio', // [*] The default sensor name
   		unit: 'x', // The sensor type (temperature, voltage, etc)
       type: 'Multiplier',
-  		manufacturer: 'Epeak Gears', // The sensor manufacturer
+  		manufacturer: 'Elmor Labs', // The sensor manufacturer
   		version: '1.0', // The sensor version
-  		hardware: 'prototype v1.0' // Additional hardware informations
+  		hardware: '1.0' // Additional hardware informations
     },
     {
       channel: 'sensor3', // [*] The channel the sensor will publish data
       name: 'CPU Cache Ratio', // [*] The default sensor name
       unit: 'x', // The sensor type (temperature, voltage, etc)
       type: 'Multiplier',
-      manufacturer: 'Epeak Gears', // The sensor manufacturer
+      manufacturer: 'Elmor Labs', // The sensor manufacturer
       version: '1.0', // The sensor version
-      hardware: 'prototype v1.0' // Additional hardware informations
+      hardware: '1.0' // Additional hardware informations
     },
     {
       channel: 'sensor4', // [*] The channel the sensor will publish data
       name: 'BCLK', // [*] The default sensor name
       unit: 'MHz', // The sensor type (temperature, voltage, etc)
       type: 'Clock',
-      manufacturer: 'Epeak Gears', // The sensor manufacturer
+      manufacturer: 'Elmor Labs', // The sensor manufacturer
       version: '1.0', // The sensor version
-      hardware: 'prototype v1.0' // Additional hardware informations
+      hardware: '1.0' // Additional hardware informations
     },
     {
       channel: 'sensor5', // [*] The channel the sensor will publish data
       name: 'V1', // [*] The default sensor name
       unit: 'V', // The sensor type (temperature, voltage, etc)
       type: 'Voltage',
-      manufacturer: 'Epeak Gears', // The sensor manufacturer
+      manufacturer: 'Elmor Labs', // The sensor manufacturer
       version: '1.0', // The sensor version
-      hardware: 'prototype v1.0' // Additional hardware informations
+      hardware: '1.0' // Additional hardware informations
     },
     {
       channel: 'sensor6', // [*] The channel the sensor will publish data
       name: 'V2', // [*] The default sensor name
       unit: 'V', // The sensor type (temperature, voltage, etc)
       type: 'Voltage',
-      manufacturer: 'Epeak Gears', // The sensor manufacturer
+      manufacturer: 'Elmor Labs', // The sensor manufacturer
       version: '1.0', // The sensor version
-      hardware: 'prototype v1.0' // Additional hardware informations
+      hardware: '1.0' // Additional hardware informations
     },
     {
       channel: 'sensor7', // [*] The channel the sensor will publish data
       name: 'VCore', // [*] The default sensor name
       unit: 'V', // The sensor type (temperature, voltage, etc)
       type: 'Voltage',
-      manufacturer: 'Epeak Gears', // The sensor manufacturer
+      manufacturer: 'Elmor Labs', // The sensor manufacturer
       version: '1.0', // The sensor version
-      hardware: 'prototype v1.0' // Additional hardware informations
+      hardware: '1.0' // Additional hardware informations
     },
     {
       channel: 'sensor8', // [*] The channel the sensor will publish data
       name: 'DRAM Voltage', // [*] The default sensor name
       unit: 'V', // The sensor type (temperature, voltage, etc)
       type: 'Voltage',
-      manufacturer: 'Epeak Gears', // The sensor manufacturer
+      manufacturer: 'Elmor Labs', // The sensor manufacturer
       version: '1.0', // The sensor version
-      hardware: 'prototype v1.0' // Additional hardware informations
+      hardware: '1.0' // Additional hardware informations
     },
     {
       channel: 'sensor9', // [*] The channel the sensor will publish data
       name: 'CPU Temp', // [*] The default sensor name
       unit: 'C', // The sensor type (temperature, voltage, etc)
       type: 'Temperature',
-      manufacturer: 'Epeak Gears', // The sensor manufacturer
+      manufacturer: 'Elmor Labs', // The sensor manufacturer
       version: '1.0', // The sensor version
-      hardware: 'prototype v1.0' // Additional hardware informations
+      hardware: '1.0' // Additional hardware informations
     },
     {
       channel: 'sensor10', // [*] The channel the sensor will publish data
       name: 'CPU Fan Speed', // [*] The default sensor name
       unit: 'rpm', // The sensor type (temperature, voltage, etc)
       type: 'Speed',
-      manufacturer: 'Epeak Gears', // The sensor manufacturer
+      manufacturer: 'Elmor Labs', // The sensor manufacturer
       version: '1.0', // The sensor version
-      hardware: 'prototype v1.0' // Additional hardware informations
+      hardware: '1.0' // Additional hardware informations
     }
 	]
     };
@@ -173,6 +191,8 @@ var start = function() {
 
        thermocouple1.readTempC(function(temp) {
            console.log('TC1 - Temp in ℃    : ', temp);
+           var uriSensorA = device_key + '.sensorA';
+           autosession.publish(uriSensorA, [{temp}]);
        });
        thermocouple1.readInternalC(function(temp) {
            console.log('TC1 - Internal in ℃: ', temp);
@@ -180,6 +200,8 @@ var start = function() {
 
        thermocouple2.readTempC(function(temp) {
            console.log('TC2 - Temp in ℃    : ', temp);
+           var uriSensorB = device_key + '.sensorB';
+           autosession.publish(uriSensorB, [{temp}]);
        });
        thermocouple2.readInternalC(function(temp) {
            console.log('TC2 - Internal in ℃: ', temp);
