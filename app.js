@@ -286,7 +286,7 @@ var start = function() {
              autosession.publish(uriSensor8, [{data:vDram}]);
 
              cpuTemp = i2c1.readByteSync(ROGEXT_ADDR, CMD_CPU_TEMPERATURE_READ);
-             console.log('CPU temp       : ' + cpuTemp + ' degC');
+             console.log('CPU temp      : ' + cpuTemp + ' degC');
              var uriSensor9 = device_key + '.sensor9';
              autosession.publish(uriSensor9, [{data:cpuTemp}]);
 
