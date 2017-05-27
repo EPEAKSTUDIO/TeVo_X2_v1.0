@@ -19,6 +19,36 @@ function MAX31855(bus, cs) {
   this._spi.bitOrder(SPI.order.MSB_FIRST);
 }
 
+convertReading = function(value) {
+  var results = {}
+  var reading;
+
+  // Internal temperature
+  if (value & 0x8000) { // Check if signedbit is set.
+    // Negative value, take 2's compliment.
+    reading = ~value
+    reading = (((value >> 4) & 0xfff) + 1)
+  } else {
+    reading = (value >> 4) & 0xfff
+  }
+  // Scale by 0.0625 degrees C per bit and return value.
+  results.internalTemperature = reading * 0.0625;
+
+  // Sensor temperature
+  if (value & 0x80000000) { // Check if signedbit is set.
+    // Convert by taking complement then shifting, this order needed for proper conversion
+    reading = ~value
+    reading = ((value >> 18) + 1 )
+
+  } else { // Positive value, just shift the bits to get the value.
+    reading = value >> 18;
+  }
+  // Scale by 0.25 degrees C per bit as per spec
+  results.sensorTemperature = reading * 0.25;
+
+  return results
+}
+
 /** Read 32 bits from the SPI bus. */
 MAX31855.prototype._read32 = function(callback) {
   this._spi.read(4, function(error, bytes) {
@@ -29,7 +59,8 @@ MAX31855.prototype._read32 = function(callback) {
         throw new Error('MAX31855: Did not read expected number of bytes from device!');
       } else {
         value = bytes[0] << 24 | bytes[1] << 16 | bytes[2] << 8 | bytes[3];
-        // console.log('Raw value: ', value);
+        // DEBUG
+        // console.log(bytes.toString('hex'));
         callback(value);
       }
     }
@@ -37,44 +68,10 @@ MAX31855.prototype._read32 = function(callback) {
 };
 
 /** Returns the internal temperature value in degrees Celsius. */
-MAX31855.prototype.readInternalC = function(callback) {
-  if(callback) {
+MAX31855.prototype.readStatus = function(callback) {
+  if (callback) {
     this._read32(function(value) {
-      // Ignore bottom 4 bits of thermocouple data.
-  		value >>= 4;
-  		// Grab bottom 11 bits as internal temperature data.
-  		var internal = value & 0x7FF;
-  		if(value & 0x800) {
-        // Negative value, take 2's compliment.
-        internal = ~internal + 1;
-      }
-      // Scale by 0.0625 degrees C per bit and return value.
-      callback(internal * 0.0625);
-    });
-  } else {
-    console.log('MAX31855: Read request issued with no callback.');
-  }
-};
-
-/** Return the thermocouple temperature value. Value is returned in degrees celsius */
-MAX31855.prototype.readTempC = function(callback) {
-  if(callback) {
-    var self = this; // Scope closure
-    this._read32(function(value) {
-      // Check for error reading value.
-      if(value & 0x7) {
-        callback(NaN);
-      } else {
-        if(value & 0x80000000) { // Check if signed bit is set.
-          // Negative value, shift the bits and take 2's compliment.
-          value >>= 18;
-          value = ~value + 1;
-        } else { // Positive value, just shift the bits to get the value.
-          value >>= 18;
-        }
-        // Scale by 0.25 degrees C per bit
-        callback(value * 0.25);
-      }
+      callback(convertReading(value));
     });
   } else {
     console.log('MAX31855: Read request issued with no callback.');
