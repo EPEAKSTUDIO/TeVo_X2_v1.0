@@ -198,17 +198,17 @@ var start = function() {
       console.log('Reading all Settings:');
 
       thermocouple1.readStatus(function(status) {
-        console.log('TC1 - Temp in ℃    : ', status.sensorTemperature.toFixed(3););
+        console.log('TC1 - Temp in ℃    : ', status.sensorTemperature.toFixed(3));
         console.log('TC1 - Internal in ℃: ', status.internalTemperature);
         var uriSensorA = device_key + '.sensorA';
-        autosession.publish(uriSensorA, [{data:status.sensorTemperature.toFixed(3);}]);
+        autosession.publish(uriSensorA, [{data:status.sensorTemperature.toFixed(3)}]);
       });
 
       thermocouple2.readStatus(function(status) {
-        console.log('TC2 - Temp in ℃    : ', status.sensorTemperature.toFixed(3););
+        console.log('TC2 - Temp in ℃    : ', status.sensorTemperature.toFixed(3));
         console.log('TC2 - Internal in ℃: ', status.internalTemperature);
         var uriSensorB = device_key + '.sensorB';
-        autosession.publish(uriSensorB, [{data:status.sensorTemperature.toFixed(3);}]);
+        autosession.publish(uriSensorB, [{data:status.sensorTemperature.toFixed(3)}]);
       });
 
        console.log('------')
